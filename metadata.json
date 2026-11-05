@@ -1,0 +1,6 @@
+{
+  "name": "CURA - NORSU Mabinay Campus Clinic",
+  "description": "Multi-role clinic management system for NORSU Mabinay Campus with Student, Staff, Faculty, Utility, Doctor, and Administrator portals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

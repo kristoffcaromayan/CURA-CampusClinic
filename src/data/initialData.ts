@@ -1,0 +1,177 @@
+import { UserAccount, Doctor, Session, Appointment, InventoryItem, SentEmail } from '../types';
+
+export const INITIAL_USERS: UserAccount[] = [
+  {
+    id: 'usr-admin',
+    fullName: 'Administrator',
+    idNumber: 'ADMIN-001',
+    email: 'admin@edoc.com',
+    role: 'admin',
+    courseOrDept: 'NORSU Clinic Administration',
+    status: 'approved',
+    createdAt: '2022-01-01',
+    password: 'password123',
+    phone: '09123456789',
+  },
+  {
+    id: 'usr-admin-runtime',
+    fullName: 'Kristoff Caromayan',
+    idNumber: 'ADMIN-002',
+    email: 'caromayankristoff52@gmail.com',
+    role: 'admin',
+    courseOrDept: 'NORSU Clinic Administration',
+    status: 'approved',
+    createdAt: '2026-10-29',
+    password: 'password123',
+    phone: '09123456789',
+  },
+  {
+    id: 'usr-doctor-1',
+    fullName: 'Dr. Roberto Mendoza, MD',
+    idNumber: 'DOC-202201',
+    email: 'doctor@edoc.com',
+    role: 'doctor',
+    courseOrDept: 'Campus Health & Medical Services',
+    status: 'approved',
+    createdAt: '2022-05-10',
+    password: 'password123',
+    phone: '09123456789',
+  },
+];
+
+export const INITIAL_DOCTORS: Doctor[] = [
+  {
+    id: 'doc-1',
+    name: 'Dr. Roberto Mendoza, MD',
+    email: 'doctor@edoc.com',
+    specialties: 'General Medicine & Campus Health',
+    availableDays: 'Monday - Friday (8:00 AM - 5:00 PM)',
+    tele: '09123456789',
+    bio: 'Chief Medical Officer providing general consultations, medical clearances, and student primary health care.',
+  },
+  {
+    id: 'doc-2',
+    name: 'Dr. Kimberly Vance, MD',
+    email: 'kimberly.vance@edoc.com',
+    specialties: 'Family Medicine & Pediatrics',
+    availableDays: 'Tuesday & Thursday (9:00 AM - 4:00 PM)',
+    tele: '09987654321',
+    bio: 'Consultant physician specializing in adolescent health, chronic condition monitoring, and preventative wellness.',
+  },
+];
+
+export const INITIAL_SESSIONS: Session[] = [
+  {
+    id: 'ses-1',
+    title: 'General Consultation & Health Clearance',
+    doctorId: 'doc-1',
+    doctorName: 'Dr. Roberto Mendoza, MD',
+    scheduledDate: '2026-11-05',
+    scheduledTime: '09:00',
+    maxPatients: 15,
+    bookedCount: 0,
+    status: 'active',
+  },
+  {
+    id: 'ses-2',
+    title: 'Afternoon Medical Consultation & First Aid',
+    doctorId: 'doc-1',
+    doctorName: 'Dr. Roberto Mendoza, MD',
+    scheduledDate: '2026-11-06',
+    scheduledTime: '14:00',
+    maxPatients: 15,
+    bookedCount: 0,
+    status: 'active',
+  },
+  {
+    id: 'ses-3',
+    title: 'Family Medicine & Student Checkup',
+    doctorId: 'doc-2',
+    doctorName: 'Dr. Kimberly Vance, MD',
+    scheduledDate: '2026-11-10',
+    scheduledTime: '10:00',
+    maxPatients: 10,
+    bookedCount: 0,
+    status: 'active',
+  },
+];
+
+// Clean initial state: completely empty appointments until a user signs up or books
+export const INITIAL_APPOINTMENTS: Appointment[] = [];
+
+export const INITIAL_INVENTORY: InventoryItem[] = [
+  {
+    id: 'inv-1',
+    itemName: 'Paracetamol 500mg Tablets',
+    category: 'Medicine',
+    quantity: 35,
+    minStockThreshold: 20,
+    unit: 'boxes',
+    lastRestocked: '2026-10-15',
+  },
+  {
+    id: 'inv-2',
+    itemName: 'Surgical Face Masks 3-Ply',
+    category: 'PPE',
+    quantity: 150,
+    minStockThreshold: 50,
+    unit: 'boxes',
+    lastRestocked: '2026-10-22',
+  },
+  {
+    id: 'inv-3',
+    itemName: '70% Isopropyl Alcohol 500ml',
+    category: 'First Aid',
+    quantity: 18,
+    minStockThreshold: 10,
+    unit: 'bottles',
+    lastRestocked: '2026-09-20',
+  },
+  {
+    id: 'inv-4',
+    itemName: 'Sterile Gauze Bandage 4x4',
+    category: 'First Aid',
+    quantity: 65,
+    minStockThreshold: 20,
+    unit: 'packs',
+    lastRestocked: '2026-10-18',
+  },
+  {
+    id: 'inv-5',
+    itemName: 'Povidone Iodine 10% Antiseptic',
+    category: 'First Aid',
+    quantity: 14,
+    minStockThreshold: 5,
+    unit: 'bottles',
+    lastRestocked: '2026-10-25',
+  },
+  {
+    id: 'inv-6',
+    itemName: 'Amoxicillin 500mg Capsules',
+    category: 'Medicine',
+    quantity: 25,
+    minStockThreshold: 15,
+    unit: 'boxes',
+    lastRestocked: '2026-10-28',
+  },
+  {
+    id: 'inv-7',
+    itemName: 'Digital Infrared Forehead Thermometer',
+    category: 'Equipment',
+    quantity: 4,
+    minStockThreshold: 2,
+    unit: 'units',
+    lastRestocked: '2026-06-10',
+  },
+  {
+    id: 'inv-8',
+    itemName: 'Mefenamic Acid 500mg',
+    category: 'Medicine',
+    quantity: 8,
+    minStockThreshold: 15,
+    unit: 'boxes',
+    lastRestocked: '2026-10-10',
+  },
+];
+
+export const INITIAL_EMAILS: SentEmail[] = [];

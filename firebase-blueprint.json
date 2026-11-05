@@ -1,0 +1,122 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile in CURA NORSU clinic",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "maxLength": 100 },
+        "idNumber": { "type": "string", "maxLength": 50 },
+        "email": { "type": "string", "maxLength": 150 },
+        "role": { "type": "string", "enum": ["student", "staff", "faculty", "utility", "doctor", "admin"] },
+        "courseOrDept": { "type": "string", "maxLength": 150 },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected", "deletion_requested"] },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "approvedAt": { "type": "string", "maxLength": 50 },
+        "approvedBy": { "type": "string", "maxLength": 150 }
+      },
+      "required": ["fullName", "email", "role", "status"]
+    },
+    "Doctor": {
+      "title": "Doctor",
+      "description": "Medical doctors in the clinic",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "specialties": { "type": "string", "maxLength": 100 },
+        "availableDays": { "type": "string", "maxLength": 100 },
+        "tele": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["name", "email"]
+    },
+    "Session": {
+      "title": "Session",
+      "description": "Scheduled clinic doctor consulting sessions",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "doctorId": { "type": "string", "maxLength": 100 },
+        "doctorName": { "type": "string", "maxLength": 100 },
+        "scheduledDate": { "type": "string", "maxLength": 50 },
+        "scheduledTime": { "type": "string", "maxLength": 50 },
+        "maxPatients": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "completed", "cancelled"] }
+      },
+      "required": ["title", "doctorName", "scheduledDate", "scheduledTime"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Patient appointments booked with doctors",
+      "type": "object",
+      "properties": {
+        "appointmentNumber": { "type": "number" },
+        "patientId": { "type": "string", "maxLength": 100 },
+        "patientName": { "type": "string", "maxLength": 100 },
+        "patientEmail": { "type": "string", "maxLength": 150 },
+        "idNumber": { "type": "string", "maxLength": 50 },
+        "doctorId": { "type": "string", "maxLength": 100 },
+        "doctorName": { "type": "string", "maxLength": 100 },
+        "sessionId": { "type": "string", "maxLength": 100 },
+        "sessionTitle": { "type": "string", "maxLength": 150 },
+        "scheduledDate": { "type": "string", "maxLength": 50 },
+        "scheduledTime": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "completed", "cancelled"] },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["appointmentNumber", "patientName", "doctorName", "sessionTitle", "scheduledDate"]
+    },
+    "InventoryItem": {
+      "title": "InventoryItem",
+      "description": "Clinic medical inventory and supplies",
+      "type": "object",
+      "properties": {
+        "itemName": { "type": "string", "maxLength": 100 },
+        "category": { "type": "string", "maxLength": 50 },
+        "quantity": { "type": "number" },
+        "minStockThreshold": { "type": "number" },
+        "unit": { "type": "string", "maxLength": 30 },
+        "lastRestocked": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["itemName", "quantity", "unit"]
+    },
+    "ClinicSetting": {
+      "title": "ClinicSetting",
+      "description": "Clinic dynamic settings including security gate passcode",
+      "type": "object",
+      "properties": {
+        "passcode": { "type": "string", "maxLength": 100 },
+        "updatedAt": { "type": "string", "maxLength": 50 },
+        "updatedBy": { "type": "string", "maxLength": 150 }
+      },
+      "required": ["passcode"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "All registered users, students, staff, doctors, and admins"
+    },
+    "/doctors/{doctorId}": {
+      "schema": "Doctor",
+      "description": "Doctors available for booking"
+    },
+    "/sessions/{sessionId}": {
+      "schema": "Session",
+      "description": "Doctor scheduled consultation slots"
+    },
+    "/appointments/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Appointments booked by patients"
+    },
+    "/inventory/{itemId}": {
+      "schema": "InventoryItem",
+      "description": "Clinic medical supplies and medicines"
+    },
+    "/settings/{settingId}": {
+      "schema": "ClinicSetting",
+      "description": "System settings and CLINIC security gate passcode"
+    }
+  }
+}
+

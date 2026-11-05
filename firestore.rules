@@ -1,0 +1,87 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'caromayankristoff52@gmail.com' ||
+        request.auth.token.email == 'admin@edoc.com' ||
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'
+      );
+    }
+
+    function isDoctor() {
+      return isSignedIn() && (
+        request.auth.token.email == 'doctor@edoc.com' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'doctor')
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      // Anyone signed in can read user records (or admin/self)
+      allow read: if isSignedIn();
+      // Allow creation during signup
+      allow create: if isSignedIn();
+      // Allow update if self (role cannot be changed by user) or if admin
+      allow update: if isSignedIn() && (
+        isAdmin() ||
+        (isOwner(userId) && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['role'])))
+      );
+      // Permanent deletion requires Admin approval
+      allow delete: if isAdmin();
+    }
+
+    // Doctors collection
+    match /doctors/{doctorId} {
+      allow read: if true; // anyone can view doctor list
+      allow write: if isAdmin();
+    }
+
+    // Sessions collection
+    match /sessions/{sessionId} {
+      allow read: if true; // public clinic session timetable
+      allow write: if isAdmin() || isDoctor();
+    }
+
+    // Appointments collection
+    match /appointments/{appointmentId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && (
+        isAdmin() ||
+        isDoctor() ||
+        (resource.data.patientId == request.auth.uid && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']))
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Inventory collection
+    match /inventory/{itemId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin() || isDoctor();
+    }
+
+    // Settings collection (security gate passcode & dynamic system settings)
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}
+
